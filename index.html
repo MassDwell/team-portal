@@ -16,6 +16,87 @@
       color: #fff;
     }
     
+    /* Login Screen */
+    .login-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+    
+    .login-box {
+      background: linear-gradient(145deg, #1e1e1e 0%, #252525 100%);
+      border: 1px solid #333;
+      border-radius: 16px;
+      padding: 3rem;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    
+    .login-logo {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #22c55e;
+      margin-bottom: 0.5rem;
+    }
+    
+    .login-subtitle {
+      color: #888;
+      margin-bottom: 2rem;
+    }
+    
+    .login-input {
+      width: 100%;
+      padding: 1rem;
+      background: #0d0d0d;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .login-input:focus {
+      outline: none;
+      border-color: #22c55e;
+    }
+    
+    .login-btn {
+      width: 100%;
+      padding: 1rem;
+      background: #22c55e;
+      border: none;
+      border-radius: 8px;
+      color: #000;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .login-btn:hover {
+      background: #16a34a;
+    }
+    
+    .login-error {
+      color: #ef4444;
+      margin-top: 1rem;
+      display: none;
+    }
+    
+    /* Main Portal */
+    .portal {
+      display: none;
+    }
+    
+    .portal.visible {
+      display: block;
+    }
+    
     .container {
       max-width: 1200px;
       margin: 0 auto;
@@ -27,6 +108,25 @@
       padding: 3rem 0;
       border-bottom: 1px solid #333;
       margin-bottom: 3rem;
+      position: relative;
+    }
+    
+    .logout-btn {
+      position: absolute;
+      top: 1rem;
+      right: 0;
+      background: transparent;
+      border: 1px solid #444;
+      color: #888;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+    
+    .logout-btn:hover {
+      border-color: #666;
+      color: #fff;
     }
     
     .logo {
@@ -39,6 +139,16 @@
     .tagline {
       color: #888;
       font-size: 1.1rem;
+    }
+    
+    .role-badge {
+      display: inline-block;
+      background: #22c55e20;
+      color: #22c55e;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      margin-top: 0.5rem;
     }
     
     .tools-grid {
@@ -151,6 +261,22 @@
       border-color: #444;
     }
     
+    .admin-only {
+      display: none;
+    }
+    
+    .admin-only.visible {
+      display: block;
+    }
+    
+    .admin-only-card {
+      display: none;
+    }
+    
+    .admin-only-card.visible {
+      display: block;
+    }
+    
     footer {
       text-align: center;
       padding: 2rem;
@@ -184,81 +310,175 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="logo">MassDwell</div>
-      <div class="tagline">Team Portal — Internal Tools</div>
-    </header>
-    
-    <div class="section-title">Core Tools</div>
-    <div class="tools-grid">
-      <a href="https://massdwell-cogs-cloud.vercel.app" class="tool-card" target="_blank">
-        <div class="tool-icon">💰</div>
-        <div class="tool-name">COGS Calculator</div>
-        <div class="tool-desc">Calculate project costs, margins, and generate quotes for each ADU model.</div>
-        <div class="tool-badge">Live</div>
-      </a>
-      
-      <a href="https://massdwell-mission-control.vercel.app" class="tool-card" target="_blank">
-        <div class="tool-icon">📋</div>
-        <div class="tool-name">Mission Control</div>
-        <div class="tool-desc">Task management and project tracking for the team.</div>
-        <div class="tool-badge">Live</div>
-      </a>
-      
-      <a href="https://massdwellcrm.kommo.com" class="tool-card" target="_blank">
-        <div class="tool-icon">👥</div>
-        <div class="tool-name">CRM (Kommo)</div>
-        <div class="tool-desc">Lead management, pipeline tracking, and customer communications.</div>
-        <div class="tool-badge external">External</div>
-      </a>
-      
-      <a href="https://portal.massdwell.com" class="tool-card" target="_blank">
-        <div class="tool-icon">🎨</div>
-        <div class="tool-name">Customer Portal</div>
-        <div class="tool-desc">Customer-facing design portal for finish selections.</div>
-        <div class="tool-badge external">External</div>
-      </a>
+  <!-- Login Screen -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-box">
+      <div class="login-logo">MassDwell</div>
+      <div class="login-subtitle">Team Portal</div>
+      <input type="password" class="login-input" id="passwordInput" placeholder="Enter team password" autofocus>
+      <button class="login-btn" onclick="login()">Enter</button>
+      <div class="login-error" id="loginError">Invalid password</div>
     </div>
-    
-    <div class="section-title">Sales Resources</div>
-    <div class="tools-grid">
-      <a href="https://drive.google.com/drive/folders/massdwell-sales-kit" class="tool-card" target="_blank">
-        <div class="tool-icon">📁</div>
-        <div class="tool-name">Sales Kit</div>
-        <div class="tool-desc">Lookbook, investor deck, contracts, and marketing materials.</div>
-        <div class="tool-badge external">Google Drive</div>
-      </a>
-      
-      <a href="https://lookerstudio.google.com/u/0/reporting/b1c14498-6e34-469d-96bf-a95abf14d008" class="tool-card" target="_blank">
-        <div class="tool-icon">📊</div>
-        <div class="tool-name">Marketing Dashboard</div>
-        <div class="tool-desc">Meta Ads, Google Ads, and Analytics performance.</div>
-        <div class="tool-badge external">Looker</div>
-      </a>
-      
-      <a href="https://massdwell.com" class="tool-card" target="_blank">
-        <div class="tool-icon">🌐</div>
-        <div class="tool-name">Website</div>
-        <div class="tool-desc">Public website — massdwell.com</div>
-        <div class="tool-badge external">Public</div>
-      </a>
-    </div>
-    
-    <div class="section-title">Quick Links</div>
-    <div class="quick-links">
-      <a href="https://business.facebook.com" class="quick-link" target="_blank">📘 Meta Business</a>
-      <a href="https://ads.google.com" class="quick-link" target="_blank">📈 Google Ads</a>
-      <a href="https://instagram.com/massdwell" class="quick-link" target="_blank">📷 Instagram</a>
-      <a href="https://github.com/MassDwell" class="quick-link" target="_blank">💻 GitHub</a>
-      <a href="mailto:sales@massdwell.com" class="quick-link">✉️ Sales Email</a>
-      <a href="tel:+16178208600" class="quick-link">📞 (617) 820-8600</a>
-    </div>
-    
-    <footer>
-      <span class="status-dot"></span> All systems operational<br>
-      <small style="margin-top: 0.5rem; display: block;">MassDwell Team Portal v1.0 — Accessible via Tailscale</small>
-    </footer>
   </div>
+
+  <!-- Main Portal -->
+  <div class="portal" id="portal">
+    <div class="container">
+      <header>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+        <div class="logo">MassDwell</div>
+        <div class="tagline">Team Portal — Internal Tools</div>
+        <div class="role-badge" id="roleBadge"></div>
+      </header>
+      
+      <div class="section-title">Core Tools</div>
+      <div class="tools-grid">
+        <a href="https://massdwell-cogs-cloud.vercel.app" class="tool-card" target="_blank">
+          <div class="tool-icon">💰</div>
+          <div class="tool-name">COGS Calculator</div>
+          <div class="tool-desc">Calculate project costs, margins, and generate quotes for each ADU model.</div>
+          <div class="tool-badge">Live</div>
+        </a>
+        
+        <a href="https://massdwell-mission-control.vercel.app" class="tool-card admin-only-card" target="_blank">
+          <div class="tool-icon">📋</div>
+          <div class="tool-name">Mission Control</div>
+          <div class="tool-desc">Task management and project tracking for the team.</div>
+          <div class="tool-badge">Live</div>
+        </a>
+        
+        <a href="https://massdwellcrm.kommo.com" class="tool-card" target="_blank">
+          <div class="tool-icon">👥</div>
+          <div class="tool-name">CRM (Kommo)</div>
+          <div class="tool-desc">Lead management, pipeline tracking, and customer communications.</div>
+          <div class="tool-badge external">External</div>
+        </a>
+        
+        <a href="https://portal.massdwell.com" class="tool-card admin-only-card" target="_blank">
+          <div class="tool-icon">🎨</div>
+          <div class="tool-name">Customer Portal</div>
+          <div class="tool-desc">Customer-facing design portal for finish selections.</div>
+          <div class="tool-badge external">External</div>
+        </a>
+      </div>
+      
+      <div class="section-title">Sales Resources</div>
+      <div class="tools-grid">
+        <a href="https://drive.google.com/drive/folders/massdwell-sales-kit" class="tool-card" target="_blank">
+          <div class="tool-icon">📁</div>
+          <div class="tool-name">Sales Kit</div>
+          <div class="tool-desc">Lookbook, investor deck, contracts, and marketing materials.</div>
+          <div class="tool-badge external">Google Drive</div>
+        </a>
+        
+        <a href="https://lookerstudio.google.com/u/0/reporting/b1c14498-6e34-469d-96bf-a95abf14d008" class="tool-card" target="_blank">
+          <div class="tool-icon">📊</div>
+          <div class="tool-name">Marketing Dashboard</div>
+          <div class="tool-desc">Meta Ads, Google Ads, and Analytics performance.</div>
+          <div class="tool-badge external">Looker</div>
+        </a>
+        
+        <a href="https://massdwell.com" class="tool-card admin-only-card" target="_blank">
+          <div class="tool-icon">🌐</div>
+          <div class="tool-name">Website</div>
+          <div class="tool-desc">Public website — massdwell.com</div>
+          <div class="tool-badge external">Public</div>
+        </a>
+      </div>
+      
+      <div class="admin-only" id="adminSection">
+        <div class="section-title">Admin Tools</div>
+        <div class="tools-grid">
+          <a href="https://business.facebook.com" class="tool-card" target="_blank">
+            <div class="tool-icon">📘</div>
+            <div class="tool-name">Meta Business</div>
+            <div class="tool-desc">Facebook & Instagram ads management.</div>
+            <div class="tool-badge external">Meta</div>
+          </a>
+          
+          <a href="https://ads.google.com" class="tool-card" target="_blank">
+            <div class="tool-icon">📈</div>
+            <div class="tool-name">Google Ads</div>
+            <div class="tool-desc">Google advertising campaigns.</div>
+            <div class="tool-badge external">Google</div>
+          </a>
+          
+          <a href="https://github.com/MassDwell" class="tool-card" target="_blank">
+            <div class="tool-icon">💻</div>
+            <div class="tool-name">GitHub</div>
+            <div class="tool-desc">Code repositories and deployments.</div>
+            <div class="tool-badge external">GitHub</div>
+          </a>
+        </div>
+      </div>
+      
+      <div class="section-title">Quick Links</div>
+      <div class="quick-links">
+        <a href="https://instagram.com/massdwell" class="quick-link" target="_blank">📷 Instagram</a>
+        <a href="mailto:sales@massdwell.com" class="quick-link">✉️ Sales Email</a>
+        <a href="tel:+16178208600" class="quick-link">📞 (617) 820-8600</a>
+      </div>
+      
+      <footer>
+        <span class="status-dot"></span> All systems operational<br>
+        <small style="margin-top: 0.5rem; display: block;">MassDwell Team Portal v2.0</small>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    // Password configuration
+    const PASSWORDS = {
+      'massdwell2026': 'admin',   // Steve - full access
+      'sales2026': 'sales'        // Nick & Jon - limited access
+    };
+    
+    function login() {
+      const password = document.getElementById('passwordInput').value;
+      const role = PASSWORDS[password];
+      
+      if (role) {
+        sessionStorage.setItem('portalRole', role);
+        showPortal(role);
+      } else {
+        document.getElementById('loginError').style.display = 'block';
+        document.getElementById('passwordInput').value = '';
+      }
+    }
+    
+    function showPortal(role) {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('portal').classList.add('visible');
+      
+      // Set role badge
+      const roleBadge = document.getElementById('roleBadge');
+      roleBadge.textContent = role === 'admin' ? '🔑 Admin Access' : '👤 Sales Access';
+      
+      // Show admin-only elements if admin
+      if (role === 'admin') {
+        document.querySelectorAll('.admin-only, .admin-only-card').forEach(el => {
+          el.classList.add('visible');
+        });
+      }
+    }
+    
+    function logout() {
+      sessionStorage.removeItem('portalRole');
+      location.reload();
+    }
+    
+    // Check for existing session
+    document.addEventListener('DOMContentLoaded', function() {
+      const savedRole = sessionStorage.getItem('portalRole');
+      if (savedRole) {
+        showPortal(savedRole);
+      }
+      
+      // Enter key to submit
+      document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') login();
+      });
+    });
+  </script>
 </body>
 </html>
